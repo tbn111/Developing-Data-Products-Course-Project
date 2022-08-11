@@ -1,0 +1,72 @@
+---
+title: "Reproducible Pitch Presentation: Resting Metabolic Calculator"
+author: "Tran Bich Nguyen"
+date: "8/11/2022"
+output: slidy_presentation
+---
+
+##    Overview
+
+Link to Application: 
+https://tbn111.shinyapps.io/ShinyApplication/
+
+The application above calculates the user's resting metabolic rate, which is the number of calories burned while at rest. 
+
+Calculations are derived using the Mifflin-St Jeor Equation, which is ((10 * weight(kg)) + (6.25 * height(cm)) - (5 * age(years)) + 5) for men, and ((10 * weight(kg)) + (6.25 * height(cm)) - (5 * age(years)) - 161) for women, respectively. 
+
+The user's resting metabolic rate is then multiplied by a factor ranging from 1.2 to 1.9 to account for the user's level of exercise.  
+
+
+##    Calculations Pt. 1
+
+###   Resting Metabolic Rate Calucation and Example
+```{r resting metabolic rate, echo = TRUE}
+ 
+# Resting Metabolic Rate Algorithm
+   
+    resting_metabolic_rate <- function(gender, age, height, weight) {
+      if (gender == "Male")  {
+      metabolic_rate <- round((10 * weight) + (6.25 * height) - (5 * age) + 5)}
+      else {metabolic_rate <- round((10 * weight) + (6.25 * height) - (5 * age) - 161)}
+      return(metabolic_rate)
+    }
+    
+
+# Example
+
+resting_metabolic_rate(gender = "Male", age = 50, height = 180, weight = 50)
+
+```
+
+##    Calculations Pt. 2
+
+###   Resting Metabolic Rate Accounting for Level of Excercise Calculation and Example
+
+```{r exercise, echo = TRUE}
+
+#Resting Metabolic Rate Accounting for Level of Exercise Algorithm
+
+    rate <- function(gender, age, weight, height, exercise)  {
+      if (gender == "Male") {
+        metabolic_rate <- round((10 * weight) + (6.25 * height) - (5 * age) + 5)}
+      else {metabolic_rate <- round((10 * weight) + (6.25 * height) - (5 * age) - 161)}
+      if (exercise == "Sedentary (little to no exercise)")  {exercise_rate <- round(metabolic_rate * 1.2)}
+      else if (exercise == "Lightly active (exercise 1-3 days/week)") {exercise_rate <- round(metabolic_rate * 1.375)}
+      else if (exercise == "Moderately active (exercise 3-5 days/week)")  {exercise_rate <- round(metabolic_rate * 1.55)}
+      else if (exercise == "Active (exercise 6-7 days/week)") {exercise_rate <- round(metabolic_rate * 1.725)}
+      else {exercise_rate <- round(metabolic_rate * 1.9)}
+      return(exercise_rate)
+    }
+
+
+#Example
+
+rate(gender = "Male", age = 50, height = 180, weight = 50, exercise = "Lightly active (exercise 1-3 days/week)")
+
+```
+
+##    Additional Resources
+
+- Mifflin St-Jeor Equation:
+https://pubmed.ncbi.nlm.nih.gov/15883556/
+
